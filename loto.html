@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sayısal Loto Oyunu</title>
+</head>
+<body>
+  <h1>Sayısal Loto Oyunu</h1>
+  
+  <p>Asagidaki inputlara tahminlerini giriniz;</p>
+  
+  <form id="guess-form">
+    <label for="guess1">Tahmin 1:</label>
+    <input type="number" id="guess1" name="guess1" min="1" max="49" required>
+    
+    <label for="guess2">Tahmin 2:</label>
+    <input type="number" id="guess2" name="guess2" min="1" max="49" required>
+    
+    <label for="guess3">Tahmin 3:</label>
+    <input type="number" id="guess3" name="guess3" min="1" max="49" required>
+    
+    <label for="guess4">Tahmin 4:</label>
+    <input type="number" id="guess4" name="guess4" min="1" max="49" required>
+    
+    <label for="guess5">Tahmin 5:</label>
+    <input type="number" id="guess5" name="guess5" min="1" max="49" required>
+    
+    <label for="guess6">Tahmin 6:</label>
+    <input type="number" id="guess6" name="guess6" min="1" max="49" required>
+    
+    <button type="button" onclick="submitGuess()">Tahmin Gir</button>
+    <button type="button" onclick="drawLottery()" id="draw-btn" disabled>Kurayı Çek</button>
+  </form>
+  
+  <div id="results"></div>
+  
+  <script>
+    let guesses = [];
+    
+    function submitGuess() {
+      const guessForm = document.getElementById('guess-form');
+      if (!guessForm.checkValidity()) {
+        alert("Lütfen tüm tahminleri girin!");
+        return;
+      }
+      
+      for (let i = 1; i <= 6; i++) {
+        guesses.push(parseInt(document.getElementById('guess' + i).value));
+      }
+      
+      guessForm.reset();
+      updateResults();
+      document.getElementById('draw-btn').disabled = false;
+    }
+    
+    function drawLottery() {
+      const drawnNumbers = [];
+      while (drawnNumbers.length < 6) {
+        const randomNumber = Math.floor(Math.random() * 49) + 1;
+        if (!drawnNumbers.includes(randomNumber)) {
+          drawnNumbers.push(randomNumber);
+        }
+      }
+      
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = '<h2>Çekiliş Sonuçları</h2>';
+      resultsContainer.innerHTML += '<p>Kazanan Sayılar: ' + drawnNumbers.join(', ') + '</p>';
+      
+      let correctGuesses = 0;
+      for (let i = 0; i < guesses.length; i++) {
+        if (drawnNumbers.includes(guesses[i])) {
+          correctGuesses++;
+        }
+      }
+      
+      resultsContainer.innerHTML += '<p>Doğru Tahmin Edilen Sayı Sayısı: ' + correctGuesses + '</p>';
+    }
+    
+    function updateResults() {
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = '';
+      if (guesses.length > 0) {
+        resultsContainer.innerHTML = '<h2>Girilen Tahminler</h2>';
+        resultsContainer.innerHTML += '<p>' + guesses.join(', ') + '</p>';
+      }
+    }
+  </script>
+</body>
+</html>

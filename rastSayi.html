@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Printer</title>
+  <style>
+    #number-container {
+      margin-bottom: 10px;
+    }
+
+    span {
+      margin: 5px;
+    }
+
+    .red-bold {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="number-container"></div>
+  <button id="sort-btn" onclick="sortNumbers()">Sırala</button>
+  <button id="random-btn" onclick="generateRandomNumber()">Rastgele Sayı Seç</button>
+
+  <script>
+    let numbers = [];
+
+   
+    function printNumbers() {
+      const container = document.getElementById('number-container');
+      container.innerHTML = '';
+
+      for (let i = 0; i < numbers.length; i++) {
+        const span = document.createElement('span');
+        span.textContent = numbers[i];
+        container.appendChild(span);
+      }
+    }
+
+    
+    function sortNumbers() {
+      numbers.sort((a, b) => a - b);
+      printNumbers();
+      document.getElementById('sort-btn').disabled = true;
+      document.getElementById('random-btn').disabled = false;
+    }
+
+    
+    function generateRandomNumber() {
+      const randomNumber = Math.floor(Math.random() * 99) + 1;
+      numbers.push(randomNumber);
+      printNumbers();
+
+     
+      const container = document.getElementById('number-container');
+      const spans = container.getElementsByTagName('span');
+      spans[numbers.length - 1].classList.add('red-bold');
+    }
+  </script>
+</body>
+</html>
